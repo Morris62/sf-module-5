@@ -1,22 +1,26 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Module_5;
+﻿ namespace Module_5;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var unsortedArray = GetArrayFromConsole();
-        var sortedArray = GetSortedArray(in unsortedArray);
-        //var sortedArray = unsortedArray.OrderBy(x => x).ToArray();
-
-        foreach (var item in sortedArray) 
+        var array = GetArrayFromConsole(10);
+        ShowArray(array, true);
+    }
+    private static void ShowArray(int[] array, bool IsSort = false)
+    {
+        var temp = array;
+        if (IsSort)
         {
-            Console.Write("{0} ", item);
+            temp = SortArray(array);
+        }
+        
+        foreach (var item in temp) 
+        {
+            Console.WriteLine(item);
         }
     }
-
-    private static int[] GetSortedArray(in int[] array)
+    private static int[] SortArray(int[] array)
     {
         for (var i = 0; i < array.Length; i++)
         {
@@ -24,22 +28,19 @@ class Program
             {
                 if (array[i] > array[j])
                 {
-                    var temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
+                    (array[i], array[j]) = (array[j], array[i]);
                 }
             }
         }
 
         return array;
     }
-
-    private static int[] GetArrayFromConsole()
+    private static int[] GetArrayFromConsole(int size = 5)
     {
-        var array = new int[10];
+        var array = new int[size];
         for (var i = 0; i < array.Length; i++)
         {
-            Console.Write($"Введите элемент массива {i}: ");
+            Console.Write($"Введите элемент массива номер {i}: ");
             array[i] = int.TryParse(Console.ReadLine(), out var result) ? result : 0;
         }
         return array;
