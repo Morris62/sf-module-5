@@ -49,34 +49,35 @@ class Program
         Console.WriteLine("Введите ваш возраст (положительное число):");
         User.Age = ReadNumber();
         
-        User.PetNames = GetPetNames();
-        
-        GeltFavColors(out User.FavColors);
+        Console.WriteLine("У вас есть домашнее животное? (Да/Нет)");
+        int count = 0;
+        if (Console.ReadLine() == "Да")
+        {
+            Console.WriteLine("Введите количество питомцев (положительное число):");
+            count = ReadNumber();
+        }
+        User.PetNames = GetPetNames(count);
+
+        Console.WriteLine("Введите количество любимых цветов (положительное число):");   
+        count = ReadNumber();
+        User.FavColors = GetFavColors(count);
         
         return User;
     }
 
-    private static void GeltFavColors(out string[] favColors)
+    private static string[] GetFavColors(int count)
     {
-        Console.WriteLine("Введите количество любимых цветов (положительное число):");   
-        var count = ReadNumber();
-        favColors = new string[count];
+        var favColors = new string[count];
         for (int i = 0; i < favColors.Length; i++)
         {
             Console.WriteLine("Введите любимый цвет номер {0}", i + 1);
             favColors[i] = Console.ReadLine();
         }
+        return favColors;
     }
 
-    private static string[] GetPetNames()
+    private static string[] GetPetNames(int count)
     {
-        Console.WriteLine("У вас есть домашнее животное? (Да/Нет)");
-        
-        if (Console.ReadLine() != "Да")
-            return new string[] { };
-        
-        Console.WriteLine("Введите количество питомцев (положительное число):");
-        var count = ReadNumber();
         var pets = new string[count];
         for (int i = 0; i < pets.Length; i++)
         {
