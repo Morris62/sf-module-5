@@ -6,73 +6,42 @@ class Program
 {
     static void Main(string[] args)
     {
-        var (name, age) = ("Евгения", 27);
-        
-        Console.WriteLine("Мое имя: {0}", name);
-        Console.WriteLine("Мой возраст: {0}", age);
+        var unsortedArray = GetArrayFromConsole();
+        var sortedArray = GetSortedArray(in unsortedArray);
+        //var sortedArray = unsortedArray.OrderBy(x => x).ToArray();
 
-        Console.WriteLine("Введите имя:");
-        name = GetDataFromConsole();
-        Console.WriteLine("Введите возраст:");
-        age = int.TryParse(GetDataFromConsole(), out var _age) ? _age : 0;
-        
-        Console.WriteLine("Ваше имя: {0}", name);
-        Console.WriteLine("Ваше возраст: {0}", age);
-        
-        var favcolor = new string[3];
-        for (int i = 0; i < favcolor.Length; i++)
+        foreach (var item in sortedArray) 
         {
-            Console.WriteLine("Введите ваш любимый цвет {0}:", i + 1);
-            favcolor[i] = ShowColor();
+            Console.Write("{0} ", item);
         }
-
-        Console.WriteLine("Ваши любимые цвета: ");
-        foreach (var color in favcolor)
-        {
-            Console.WriteLine(color);
-        }
-        Console.ReadKey();
     }
 
-    private static string ShowColor()
+    private static int[] GetSortedArray(in int[] array)
     {
-        Console.WriteLine("Введите свой любимый цвет на английском языке с маленькой буквы");
-        var color = GetDataFromConsole();
-
-        switch (color)
+        for (var i = 0; i < array.Length; i++)
         {
-            case "red":
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.ForegroundColor = ConsoleColor.Black;
-                
-                Console.WriteLine("Your favourite color is red");
-                break;
-            case "green":
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.ForegroundColor = ConsoleColor.Black;
-                
-                Console.WriteLine("Your favourite color is green");
-                break;
-            case "cyan":
-                Console.BackgroundColor = ConsoleColor.Cyan;
-                Console.ForegroundColor = ConsoleColor.Black;
-                
-                Console.WriteLine("Your favourite color is cyan");
-                break;
-            default:
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Red;
-                
-                Console.WriteLine("Your favourite color is yellow");
-                break;
+            for (var j = i + 1; j < array.Length; j++)
+            {
+                if (array[i] > array[j])
+                {
+                    var temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
         }
 
-        Console.ResetColor();
-        return color;
+        return array;
     }
 
-    private static string? GetDataFromConsole()
+    private static int[] GetArrayFromConsole()
     {
-        return Console.ReadLine();
+        var array = new int[10];
+        for (var i = 0; i < array.Length; i++)
+        {
+            Console.Write($"Введите элемент массива {i}: ");
+            array[i] = int.TryParse(Console.ReadLine(), out var result) ? result : 0;
+        }
+        return array;
     }
 }
