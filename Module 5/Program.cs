@@ -51,7 +51,7 @@ class Program
         
         Console.WriteLine("У вас есть домашнее животное? (Да/Нет)");
         int count = 0;
-        if (Console.ReadLine() == "Да")
+        if (Console.ReadLine().ToLower() == "да")
         {
             Console.WriteLine("Введите количество питомцев (положительное число):");
             count = ReadNumber();
